@@ -11,6 +11,11 @@ import Data.Word
 import qualified Data.HashMap.Strict as M
 import qualified Data.Text           as T
 
+newtype Token = Token
+  { unToken :: ByteString } deriving (Eq, Show)
+newtype NotificationId = NotificationId
+  { unNotify :: Word32 } deriving (Eq, Show)
+
 data Aps = Aps
   { apsAlert            :: !T.Text
   , apsBadge            :: !(Maybe Int)
@@ -54,12 +59,12 @@ data ErrorResponse = NoError
 data ApnsResponseInternal = ApnsResponseInternal
   { resCommand :: Word8
   , resStatus  :: ErrorResponse
-  , resIdt     :: Word32
+  , resIdt     :: NotificationId
   } deriving (Eq, Show)
 
 data ApnsResponse = ApnsResponse
   { resInternal :: ApnsResponseInternal
-  , resToken    :: ByteString
+  , resToken    :: Token
   } deriving (Eq, Show)
 
 -- | Feedback that comes from apple services
@@ -67,5 +72,5 @@ data ApnsResponse = ApnsResponse
 data ApnsFeedback = ApnsFeedback
   { fbTime  :: Word32
   , fbLen   :: Word16
-  , fbToken :: ByteString
+  , fbToken :: Token
   } deriving (Eq, Show)

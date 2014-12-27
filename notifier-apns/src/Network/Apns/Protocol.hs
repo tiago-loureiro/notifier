@@ -17,13 +17,13 @@ parseFeedback :: BL.ByteString -> ApnsFeedback
 parseFeedback = runGet $ ApnsFeedback
                       <$> getWord32be
                       <*> getWord16be
-                      <*> fmap B16.encode (getByteString 32)
+                      <*> (Token <$> (fmap B16.encode $ getByteString 32))
 
 parseResponse :: BL.ByteString -> ApnsResponseInternal
 parseResponse = runGet $ ApnsResponseInternal
                       <$> getWord8
                       <*> parseErrorResponse
-                      <*> getWord32be
+                      <*> (NotificationId <$> getWord32be)
   where
     parseErrorResponse = getWord8 >>= \e -> case e of
       0   -> return NoError

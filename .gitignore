@@ -6,3 +6,4 @@ cabal-dev
 *.chs.h
 *.pem
 .virthualenv
+.cabal-sandbox

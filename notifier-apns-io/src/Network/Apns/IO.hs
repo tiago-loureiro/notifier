@@ -80,9 +80,9 @@ sendNotification b o m e s t = do
   where
 --    handleFailure ::
     handleFailure d (Just res) = do
-      v <- N.lookup (N.mkKey . fromIntegral $ resIdt res) d
+      v <- N.lookup (N.mkKey . fromIntegral . unNotify $ resIdt res) d
       case v of
-        (Just tok) -> return . Just $ ApnsResponse res tok
+        (Just tok) -> return . Just $ ApnsResponse res (Token tok)
         _          -> return Nothing
 
     handleFailure _ _ = return Nothing
