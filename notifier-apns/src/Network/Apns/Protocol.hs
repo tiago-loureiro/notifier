@@ -17,7 +17,7 @@ parseFeedback :: BL.ByteString -> ApnsFeedback
 parseFeedback = runGet $ ApnsFeedback
                       <$> getWord32be
                       <*> getWord16be
-                      <*> (Token <$> (fmap B16.encode $ getByteString 32))
+                      <*> (Token <$> fmap B16.encode (getByteString 32))
 
 parseResponse :: BL.ByteString -> ApnsResponseInternal
 parseResponse = runGet $ ApnsResponseInternal
@@ -79,8 +79,8 @@ buildPDUv2 token payload expiry nId = runPut $ do
     putWord8 10
   where
     frameLength = item1Len + item2Len + item3Len + item4Len + item5Len
-    item1Len = 1 + 2 + (B.length token)
-    item2Len = 1 + 2 + (fromIntegral $ BL.length payload)
+    item1Len = 1 + 2 + B.length token
+    item2Len = 1 + 2 + fromIntegral (BL.length payload)
     item3Len = 1 + 2 + 4
     item4Len = 1 + 2 + 4
     item5Len = 1 + 2 + 1
