@@ -1,6 +1,5 @@
 {-# LANGUAGE FlexibleInstances, OverloadedStrings, DeriveGeneric,
-             DeriveDataTypeable, TemplateHaskell, FlexibleContexts,
-             RecordWildCards #-}
+    FlexibleContexts, RecordWildCards #-}
 
 module Network.Apns.IO where
 
